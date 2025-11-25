@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Seller Dashboard - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<h1>Seller Dashboard</h1>
+
+<div style="margin: 2rem 0;">
+    <a href="{{ url_for('add_product') }}" class="btn">Add New Product</a>
+</div>
+
+<div style="background: #fff; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+    <h2>My Products</h2>
+    {% if products %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>£{{ "%.2f"|format(product.price) }}</td>
+                <td>{{ product.created_at }}</td>
+                <td>
+                    <a href="{{ url_for('edit_product', product_id=product.id) }}">Edit</a> |
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You haven't listed any products yet.</p>
+    {% endif %}
+</div>
+
+<div style="background: #fff; padding: 2rem; border-radius: 8px;">
+    <h2>Transaction History</h2>
+    {% if transactions %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Buyer</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.name }}</td>
+                <td>{{ transaction.buyer_name }}</td>
+                <td>£{{ "%.2f"|format(transaction.price) }}</td>
+                <td>{{ transaction.transaction_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No sales yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

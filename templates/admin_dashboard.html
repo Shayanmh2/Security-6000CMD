@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+
+<div style="background: #fff; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+    <h2>User Management</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role|capitalize }}</td>
+                <td>{{ user.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div style="background: #fff; padding: 2rem; border-radius: 8px;">
+    <h2>All Products</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Seller</th>
+                <th>Price</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.seller_name }}</td>
+                <td>£{{ "%.2f"|format(product.price) }}</td>
+                <td>{{ product.created_at }}</td>
+                <td>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

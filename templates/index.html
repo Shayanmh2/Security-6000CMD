@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin: 2rem 0;">
+    <h1>Welcome to Amazing Bargain Central</h1>
+    <p>Browse our products and find great deals</p>
+</div>
+
+<div style="margin: 2rem 0;">
+    <form method="GET" action="{{ url_for('search') }}" style="display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto;">
+        <input type="text" name="q" placeholder="Search for products..." style="flex: 1;">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<h2>Featured Products</h2>
+
+{% if products %}
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description[:100] }}{% if product.description|length > 100 %}...{% endif %}</p>
+        <p class="price">£{{ "%.2f"|format(product.price) }}</p>
+        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn">View Details</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No products available at the moment.</p>
+{% endif %}
+{% endblock %}

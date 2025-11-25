@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>User Profile</h2>
+    
+    <div class="form-group">
+        <label>Username:</label>
+        <p>{{ user.username }}</p>
+    </div>
+    
+    <div class="form-group">
+        <label>Email:</label>
+        <p>{{ user.email }}</p>
+    </div>
+    
+    <div class="form-group">
+        <label>Account Type:</label>
+        <p>{{ user.role|capitalize }}</p>
+    </div>
+    
+    <div class="form-group">
+        <label>Member Since:</label>
+        <p>{{ user.created_at }}</p>
+    </div>
+    
+    {% if user.role == 'customer' %}
+    <div style="margin-top: 2rem;">
+        <h3>Upgrade to Seller Account</h3>
+        <p>Want to sell products on our platform?</p>
+        <form method="POST" action="{{ url_for('upgrade_to_seller') }}">
+            <button type="submit">Become a Seller</button>
+        </form>
+    </div>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <h3>My Purchases</h3>
+        <a href="{{ url_for('my_purchases') }}" class="btn">View Purchase History</a>
+    </div>
+</div>
+{% endblock %}

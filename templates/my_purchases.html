@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}My Purchases - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<h1>My Purchase History</h1>
+
+<div style="background: #fff; padding: 2rem; border-radius: 8px; margin-top: 2rem;">
+    {% if purchases %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price Paid</th>
+                <th>Purchase Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase in purchases %}
+            <tr>
+                <td>{{ purchase.name }}</td>
+                <td>{{ purchase.description[:50] }}{% if purchase.description|length > 50 %}...{% endif %}</td>
+                <td>£{{ "%.2f"|format(purchase.price) }}</td>
+                <td>{{ purchase.transaction_date }}</td>
+                <td>
+                    <a href="{{ url_for('product_detail', product_id=purchase.product_id) }}">View Product</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You haven't made any purchases yet.</p>
+    <a href="{{ url_for('index') }}" class="btn">Browse Products</a>
+    {% endif %}
+</div>
+{% endblock %}
