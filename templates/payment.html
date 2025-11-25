@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - Amazing Bargain Central{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Complete Your Purchase</h2>
+    
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
+        <h3>Order Summary</h3>
+        <p><strong>Product:</strong> {{ purchase.product_name }}</p>
+        <p><strong>Price:</strong> £{{ "%.2f"|format(purchase.price) }}</p>
+    </div>
+    
+    <form method="POST" action="{{ url_for('payment_page') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <h3>Payment Information</h3>
+        <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+            Note: This is a dummy payment form for demonstration purposes only. No real payment processing occurs.
+        </p>
+        
+        <div class="form-group">
+            <label for="card_number">Card Number:</label>
+            <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="card_name">Cardholder Name:</label>
+            <input type="text" id="card_name" name="card_name" placeholder="John Doe" required>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+                <label for="expiry">Expiry Date:</label>
+                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+            </div>
+        </div>
+        
+        <button type="submit">Complete Payment</button>
+        <a href="{{ url_for('product_detail', product_id=purchase.product_id) }}" class="btn" style="background: #6c757d; margin-left: 0.5rem;">Cancel</a>
+    </form>
+</div>
+{% endblock %}
