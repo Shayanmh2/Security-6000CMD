@@ -21,6 +21,11 @@
 <div class="product-grid">
     {% for product in products %}
     <div class="product-card">
+        {% if product.image_url %}
+            <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" alt="{{ product.name }}" class="product-image">
+        {% else %}
+            <img src="{{ url_for('static', filename='no-image.png') }}" alt="No image available" class="product-image">
+        {% endif %}
         <h3>{{ product.name }}</h3>
         <p>{{ product.description[:100] }}{% if product.description|length > 100 %}...{% endif %}</p>
         <p class="price">£{{ "%.2f"|format(product.price) }}</p>

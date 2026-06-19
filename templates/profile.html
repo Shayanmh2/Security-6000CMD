@@ -31,6 +31,7 @@
         <h3>Upgrade to Seller Account</h3>
         <p>Want to sell products on our platform?</p>
         <form method="POST" action="{{ url_for('upgrade_to_seller') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <button type="submit">Become a Seller</button>
         </form>
     </div>

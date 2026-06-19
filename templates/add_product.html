@@ -5,7 +5,8 @@
 {% block content %}
 <div class="form-container">
     <h2>Add New Product</h2>
-    <form method="POST" action="{{ url_for('add_product') }}">
+    <form method="POST" action="{{ url_for('add_product') }}" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <div class="form-group">
             <label for="name">Product Name:</label>
             <input type="text" id="name" name="name" required>
@@ -19,6 +20,12 @@
         <div class="form-group">
             <label for="price">Price (£):</label>
             <input type="number" id="price" name="price" step="0.01" min="0.01" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="image">Product Image (optional):</label>
+            <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/jpg, image/gif">
+            <small style="color: #666; display: block; margin-top: 0.5rem;">Accepted formats: PNG, JPG, JPEG, GIF (Max 5MB)</small>
         </div>
         
         <button type="submit">Add Product</button>

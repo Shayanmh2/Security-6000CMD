@@ -4,12 +4,20 @@
 
 {% block content %}
 <div style="background: #fff; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+    <div style="text-align: center;">
+        {% if product.image_url %}
+            <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" alt="{{ product.name }}" class="product-detail-image">
+        {% else %}
+            <img src="{{ url_for('static', filename='no-image.png') }}" alt="No image available" class="product-detail-image">
+        {% endif %}
+    </div>
     <h1>{{ product.name }}</h1>
     <p class="price" style="font-size: 2rem; margin: 1rem 0;">£{{ "%.2f"|format(product.price) }}</p>
     <p style="margin-bottom: 2rem;">{{ product.description }}</p>
     
     {% if session.user_id %}
         <form method="POST" action="{{ url_for('purchase_product', product_id=product.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <button type="submit">Purchase Now</button>
         </form>
     {% else %}
@@ -21,29 +29,36 @@
     <h2>Customer Reviews</h2>
     
     {% if session.user_id %}
-    <div style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
-        <h3>Write a Review</h3>
-        <form method="POST" action="{{ url_for('add_review', product_id=product.id) }}">
-            <div class="form-group">
-                <label for="rating">Rating:</label>
-                <select id="rating" name="rating" required>
-                    <option value="">Select rating</option>
-                    <option value="5">5 - Excellent</option>
-                    <option value="4">4 - Good</option>
-                    <option value="3">3 - Average</option>
-                    <option value="2">2 - Poor</option>
-                    <option value="1">1 - Terrible</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="comment">Review:</label>
-                <textarea id="comment" name="comment" rows="4" placeholder="Share your experience with this product..."></textarea>
-            </div>
-            
-            <button type="submit">Submit Review</button>
-        </form>
-    </div>
+        {% if has_purchased %}
+        <div style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 4px;">
+            <h3>Write a Review</h3>
+            <form method="POST" action="{{ url_for('add_review', product_id=product.id) }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="">Select rating</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Terrible</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comment">Review:</label>
+                    <textarea id="comment" name="comment" rows="4" placeholder="Share your experience with this product..."></textarea>
+                </div>
+                
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+        {% else %}
+        <div style="margin-bottom: 2rem; padding: 1rem; background: #fff3cd; border-radius: 4px; border: 1px solid #ffc107;">
+            <p style="margin: 0; color: #856404;">You must purchase this product before you can leave a review.</p>
+        </div>
+        {% endif %}
     {% endif %}
     
     {% if reviews %}
