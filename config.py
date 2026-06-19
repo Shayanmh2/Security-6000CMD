@@ -4,21 +4,21 @@ from datetime import timedelta
 class Config:
     "Base configuration class"
     
-    # Flask settings
+    #flask settings
     SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(24)
     
     # Database settings
     DATABASE_NAME = 'ecommerce.db'
     
-    # Session settings
+    # session settings
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
     PERMANENT_SESSION_LIFETIME = timedelta(hours=2)
     
-    # Security headers (for Flask-Talisman if implemented)
+    # security headers 
     FORCE_HTTPS = False  # Set to True in production
     
-    # Rate limiting (for Flask-Limiter if implemented)
+    # Rate limiting 
     RATELIMIT_ENABLED = True
     RATELIMIT_STORAGE_URL = 'memory://'
     
@@ -43,7 +43,6 @@ class TestingConfig(Config):
     TESTING = True
     DATABASE_NAME = 'test_ecommerce.db'
 
-# Configuration dictionary
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,

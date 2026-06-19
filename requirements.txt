@@ -6,15 +6,18 @@ itsdangerous==2.1.2
 click==8.1.7
 blinker==1.7.0
 
-# Security extensions
+# security extensions
 Flask-Limiter==3.5.0
 Flask-Talisman==1.1.0
 Flask-WTF==1.2.1
 WTForms==3.1.1
 
-# Secuirty tools
+# Image processing
+Pillow==10.1.0
+
+# security tools 
 bandit==1.7.5
 safety==2.3.5
 
-# Development tools
+# dev tools
 python-dotenv==1.0.0
